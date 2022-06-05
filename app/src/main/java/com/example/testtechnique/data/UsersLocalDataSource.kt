@@ -6,7 +6,7 @@ import com.example.testtechnique.data.db.UserDao
 class UsersLocalDataSource(
     private val userDao: UserDao
 ) {
-    fun getUser(email: String, password: String): User {
+    suspend fun getUser(email: String, password: String): User {
         return userDao.findByLogins(email, password)
     }
 }

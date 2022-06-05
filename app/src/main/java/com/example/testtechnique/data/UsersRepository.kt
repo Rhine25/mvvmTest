@@ -1,20 +1,23 @@
 package com.example.testtechnique.data
 
-import android.widget.Toast
+import android.util.Log
 import com.example.testtechnique.app.UserMapper
 import com.example.testtechnique.app.UserModel
 import com.example.testtechnique.util.DataState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class UsersRepository(
     private val usersLocalDataSource: UsersLocalDataSource,
     private val userMapper: UserMapper
 ) {
-    fun getUser(email: String, password: String): DataState<UserModel> {
+    suspend fun getUser(email: String, password: String): Flow<DataState<UserModel>> = flow {
+        emit(DataState.Loading)
         try {
             val dbUser = usersLocalDataSource.getUser(email, password)
-            return DataState.Success(userMapper.mapFromEntity(dbUser))
+            emit(DataState.Success(userMapper.mapFromEntity(dbUser)))
         } catch (e: Exception) {
-            return DataState.Error(e)
+            emit(DataState.Error(e))
         }
     }
 }
