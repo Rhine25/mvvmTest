@@ -1,4 +1,4 @@
-package com.example.testtechnique.data
+package com.example.testtechnique.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
