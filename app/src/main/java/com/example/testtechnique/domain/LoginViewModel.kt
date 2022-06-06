@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class UserViewModel(
+class LoginViewModel(
     private val usersRepository: UsersRepository
 ): ViewModel() {
     private val _dataState: MutableLiveData<DataState<UserModel>> = MutableLiveData()
@@ -19,25 +19,21 @@ class UserViewModel(
     val dataState: LiveData<DataState<UserModel>>
         get() = _dataState
 
-    fun setStateEvent(userStateEvent: UserStateEvent) {
+    fun setStateEvent(loginStateEvent: LoginStateEvent) {
         viewModelScope.launch {
-            when (userStateEvent) {
-                is UserStateEvent.GetUserEvent -> {
-                    usersRepository.getUser(userStateEvent.email, userStateEvent.password)
+            when (loginStateEvent) {
+                is LoginStateEvent.GetLoginEvent -> {
+                    usersRepository.getUser(loginStateEvent.email, loginStateEvent.password)
                         .onEach { dataState ->
                             _dataState.value = dataState
                         }
                         .launchIn(viewModelScope)
-                }
-                is UserStateEvent.None -> {
-                    //
                 }
             }
         }
     }
 }
 
-sealed class UserStateEvent {
-    class GetUserEvent(val email: String, val password: String): UserStateEvent()
-    object None: UserStateEvent()
+sealed class LoginStateEvent {
+    class GetLoginEvent(val email: String, val password: String): LoginStateEvent()
 }

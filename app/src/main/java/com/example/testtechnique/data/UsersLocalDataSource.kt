@@ -9,4 +9,8 @@ class UsersLocalDataSource(
     suspend fun getUser(email: String, password: String): User {
         return userDao.findByLogins(email, password)
     }
+
+    suspend fun getUser(id: Int): User {
+        return userDao.findById(id)
+    }
 }

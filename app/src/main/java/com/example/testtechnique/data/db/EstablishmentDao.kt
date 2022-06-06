@@ -7,8 +7,8 @@ import androidx.room.Query
 @Dao
 interface EstablishmentDao {
     @Query("SELECT * FROM establishment WHERE owner LIKE :owner")
-    fun findByOwner(owner: Int): List<Establishment>
+    suspend fun findByOwner(owner: Int): List<Establishment>
 
     @Insert
-    fun insertEstablishment(establishment: Establishment)
+    suspend fun insertEstablishment(establishment: Establishment)
 }

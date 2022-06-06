@@ -12,6 +12,9 @@ interface UserDao {
     @Query("SELECT * FROM user WHERE email LIKE :email AND password LIKE :password LIMIT 1")
     suspend fun findByLogins(email: String, password: String): User
 
+    @Query("SELECT * FROM user WHERE uid LIKE :id")
+    suspend fun findById(id: Int): User
+
     @Insert
     suspend fun insertUser(user: User)
 }
